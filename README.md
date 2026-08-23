@@ -1,137 +1,139 @@
 # 🐾 Veterinaria 1.0 - Sistema Integrado de Gestión Clínica
 
-Este proyecto es una plataforma full-stack diseñada para optimizar y automatizar los flujos de trabajo de una clínica veterinaria. Permite la administración integral de pacientes (mascotas), propietarios (clientes), asignación de turnos médicos y el seguimiento de historias clínicas en tiempo real.
+Este repositorio contiene el código fuente de **Veterinaria 1.0**, una aplicación full-stack orientada a la administración de clínicas veterinarias. El sistema permite gestionar de manera centralizada el registro de usuarios, el control médico de pacientes (mascotas), la persistencia de datos históricos y el agendamiento de turnos.
 
 ---
 
 ## 📌 Índice
-1. [Características Principales](#-características-principales)
-2. [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-3. [Estructura del Repositorio](#-estructura-del-repositorio)
-4. [Instalación y Configuración](#-instalación-y-configuración)
-5. [Estructura de la API (Backend)](#-estructura-de-la-api-backend)
+1. [Características del Sistema](#-características-del-sistema)
+2. [Arquitectura y Estructura del Repositorio](#-arquitectura-y-estructura-del-repositorio)
+3. [Tecnologías Utilizadas](#-tecnologías-utilizadas)
+4. [Instalación y Despliegue Local](#-instalación-y-despliegue-local)
+5. [Estructura del Backend (API)](#-estructura-del-backend-api)
 6. [Estructura del Frontend](#-estructura-del-frontend)
-7. [Buenas Prácticas y Contribución](#-buenas-prácticas-y-contribución)
+7. [Políticas de Contribución](#-políticas-de-contribución)
 
 ---
 
-## ✨ Características Principales
+## ✨ Características del Sistema
 
-*   **Gestión de Clientes:** Altas, bajas, modificaciones y perfiles de contacto de los dueños.
-*   **Historias Clínicas:** Registro dinámico de consultas, diagnósticos, recetas, vacunación y peso.
-*   **Control de Turnos:** Calendario interactivo para reservar, reprogramar y cancelar citas médicas.
-*   **Control de Stock (Próximamente):** Inventario de medicamentos e insumos clínicos.
+*   **Autenticación Adaptativa:** Módulos independientes de registro e inicio de sesión para el personal de la clínica y clientes (`login.js`, `Registrarse.js`).
+*   **Gestión de Turnos:** Controlador lógico backend (`turnosController.js`) dedicado a coordinar las citas y prevenir solapamientos horários.
+*   **Fichas Médicas Digitales:** Visualización estructurada y actualización de datos biológicos de los animales en tiempo real (`FichaMascotas.js`).
+*   **Persistencia Basada en Datos JSON:** Modelo ágil de almacenamiento local a través de archivos planos estructurados (`animales_guardados.json`).
+
+---
+
+## 📂 Arquitectura y Estructura del Repositorio
+
+A continuación se detalla la estructura física exacta del proyecto según el árbol de directorios del repositorio:
+
+```text
+Veterinaria1.0-TP/
+├── .github/                       # Configuración de workflows y CI/CD de GitHub
+├── backend/                       # Capa del servidor y lógica de negocio (API)
+│   ├── controller/                # Controladores lógicos (ej: turnosController.js)
+│   ├── data/                      # Base de datos local (animales_guardados.json, etc.)
+│   ├── database/                  # Módulos de conexión y mock data (db.js, db7.js)
+│   ├── models/                    # Esquemas y abstracciones de entidades (mascota.json)
+│   ├── router/                    # Definición de routers e intermediarios
+│   ├── routes/                    # Endpoints expuestos de la API (index.js, userProfiles.js)
+│   ├── utils/                     # Herramientas transversales (hashMaster.js)
+│   ├── views/                     # Plantillas o respuestas de renderizado visual
+│   ├── server.js                  # Punto de entrada de la aplicación Express
+│   └── package.json               # Dependencias del entorno de servidor
+├── veterinaria-frontend/          # Capa cliente e interfaz gráfica de usuario
+│   ├── HTML/                      # Archivos de maquetación estructural web
+│   ├── Imagenes/                  # Assets gráficos y recursos visuales locales
+│   ├── src/                       # Código fuente del cliente empaquetado
+│   │   ├── CSS/                   # Archivos de estilos (login.css, panel.css, etc.)
+│   │   ├── JS/                    # Lógica del lado del cliente (login.js, panel.js)
+│   │   ├── assets/                # Recursos estáticos adicionales
+│   │   └── pages/                 # Vistas dinámicas (FichaMascotas.js, panelJS.js)
+│   ├── vite.config.js             # Configuración del bundler Vite
+│   └── package.json               # Dependencias del ecosistema del frontend
+├── package.json                   # Gestión de dependencias globales del proyecto
+└── README.md                      # Documentación general del sistema
+```
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-### Backend
-*   **Entorno de Ejecución:** Node.js (v18+)
-*   **Framework Web:** Express.js
-*   **Base de Datos (Sugerida):** MongoDB (Mongoose) / PostgreSQL / MySQL
-*   **Autenticación (Opcional):** JSON Web Tokens (JWT)
-
-### Frontend
-*   **Lenguajes:** HTML5, CSS3, JavaScript (ES6+) / TypeScript
-*   **Estilos:** CSS Modules / Tailwind CSS / Bootstrap
+*   **Núcleo de Servidor:** Node.js junto con el framework robusto Express.js.
+*   **Almacenamiento:** Gestión de datos estructurada mediante serialización JSON nativa.
+*   **Construcción Frontend:** HTML5 semántico, CSS3 avanzado y JavaScript Moderno (ES6+).
+*   **Herramientas de Entorno:** Vite para compilación rápida y hot reload en desarrollo.
 
 ---
 
-## 📂 Estructura del Repositorio
+## 🚀 Instalación y Despliegue Local
 
-```text
-Veterinaria1.0-TP/
-├── .github/               # Flujos de trabajo y configuraciones de GitHub
-├── backend/               # Código del servidor y lógica de negocio
-│   ├── src/
-│   │   ├── controllers/   # Controladores de las rutas
-│   │   ├── models/        # Esquemas de datos y modelos
-│   │   ├── routes/        # Definición de endpoints API
-│   │   └── app.js         # Punto de entrada del backend
-│   ├── package.json
-│   └── .env.example
-├── veterinaria-frontend/  # Interfaz gráfica de usuario
-│   ├── src/
-│   │   ├── components/    # Componentes UI reutilizables
-│   │   ├── views/         # Vistas o páginas principales
-│   │   └── main.js        # Punto de entrada de la aplicación
-│   └── package.json
-├── .gitignore             # Archivos omitidos en el control de versiones
-└── README.md              # Documentación del proyecto
-```
+Siga de manera ordenada estas instrucciones para clonar e iniciar el entorno de desarrollo en su máquina:
 
----
+### ⚙️ Configuración y Arranque del Backend
 
-## 🚀 Instalación y Configuración
-
-Siga las siguientes instrucciones paso a paso para desplegar el entorno localmente:
-
-### ⚙️ Configuración del Backend
-
-1.  Navegue a la carpeta del servidor:
+1.  Ingrese a la suite del servidor:
     ```bash
     cd backend
     ```
-2.  Instale las dependencias de desarrollo y producción:
+2.  Instale los paquetes de Node requeridos:
     ```bash
     npm install
     ```
-3.  Configure sus variables de entorno creando un archivo `.env`:
+3.  Inicie el servidor Express:
     ```bash
-    cp .env.example .env
-    ```
-    *Defina allí sus puertos de conexión y URI de base de datos.*
-4.  Inicie el servidor en modo desarrollo:
-    ```bash
-    npm run dev
-    # O use el comando por defecto si no configuró nodemon:
     npm start
     ```
+    > Por defecto, el servidor quedará escuchando peticiones en el puerto configurado en el archivo `server.js`.
 
-### 💻 Configuración del Frontend
+### 💻 Configuración y Arranque del Frontend
 
-1.  Regrese a la raíz y diríjase al directorio cliente:
+1.  Regrese a la raíz y acceda a la suite cliente:
     ```bash
     cd ../veterinaria-frontend
     ```
-2.  Instale las dependencias del módulo web:
+2.  Descargue las dependencias administradas por Vite:
     ```bash
     npm install
     ```
-3.  Ejecute el servidor de desarrollo del frontend:
+3.  Ejecute el entorno local de desarrollo:
     ```bash
-    npm start
-    # O si usa herramientas modernas (Vite):
     npm run dev
     ```
-4.  Abra [http://localhost:3000](http://localhost:3000) (o el puerto indicado en su terminal) en su navegador web.
+4.  Abra su navegador web e ingrese a la dirección local provista (habitualmente `http://localhost:5173`).
 
 ---
 
-## 🔌 Estructura de la API (Backend)
+## 🔌 Estructura del Backend (API)
 
-Los endpoints de la aplicación se exponen bajo el prefijo común `/api`. A continuación, se detallan las rutas principales:
+El backend expone rutas estandarizadas para el consumo de datos del frontend. Algunas de las rutas clave mapeadas en los controladores son:
 
-| Método | Endpoint | Descripción |
-| :--- | :--- | :--- |
-| `GET` | `/api/pacientes` | Obtiene la lista completa de mascotas. |
-| `POST` | `/api/pacientes` | Registra una nueva mascota en el sistema. |
-| `GET` | `/api/turnos` | Lista todas las citas médicas programadas. |
-| `POST` | `/api/turnos` | Reserva un nuevo turno médico. |
-| `PUT` | `/api/turnos/:id` | Modifica el estado o fecha de un turno específico. |
+| Método | Endpoint | Archivo Controlador Asociado | Descripción |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/turnos` | `turnosController.js` | Devuelve la lista histórica de turnos médicos. |
+| `POST` | `/api/turnos` | `turnosController.js` | Registra una nueva solicitud de cita en el sistema. |
+| `POST` | `/api/auth/login` | `routes/index.js` | Autentica un usuario y redirige al panel. |
+| `POST` | `/api/auth/register`| `routes/index.js` | Da de alta un nuevo perfil en la base de datos JSON. |
+
+---
+
+## 💻 Estructura del Frontend
+
+El cliente está optimizado para modularidad y rendimiento:
+*   **`/HTML`**: Contiene los puntos de acceso estáticos para las interfaces limpias.
+*   **`/src/CSS`**: Estilos independientes y encapsulados para evitar colisiones de diseño entre el login y el panel operativo.
+*   **`/src/JS`**: Scripts dedicados a la interceptación de formularios, validación del lado del cliente y comunicación asíncrona mediante `fetch`/`axios` hacia el servidor.
 
 ---
 
-## 🤝 Buenas Prácticas y Contribución
+## 🤝 Políticas de Contribución
 
-Para mantener la legibilidad y el orden del código dentro del repositorio, el equipo sigue estas pautas:
-
-1.  **Ramificación (Git Flow):** No realizar commits directamente sobre la rama `main`. Utilizar ramas descriptivas como `feature/nombre-de-la-mejora` o `bugfix/nombre-del-error`.
-2.  **Mensajes de Commit:** Redactar mensajes claros y concisos en tiempo presente (ej: `feat: add patient registration form` o `fix: solve database connection timeout`).
-3.  **Pull Requests:** Todo PR requiere la revisión y aprobación de al menos un miembro del equipo de desarrollo antes de fusionarse.
-
----
+Para garantizar la estabilidad de la rama principal (`main`), el equipo aplica estrictamente el siguiente flujo de trabajo:
+1.  **Aislamiento:** Está prohibido pushear código directamente a la rama `main`. Toda modificación debe realizarse en una rama auxiliar descriptiva (`feature/funcionalidad` o `bugfix/correccion`).
+2.  **Mensajes Claros:** Los mensajes de commit deben describir con precisión la lógica alterada usando convenciones claras (ej: `feat: implement turnos controller validation`).
+3.  **Aprobación:** Todo cambio debe integrarse mediante un Pull Request (PR) que cuente con la revisión correspondiente.
+4.  
 
 ## 👥 Autores y Colaboradores
 
