@@ -137,5 +137,3 @@ Para mantener la legibilidad y el orden del código dentro del repositorio, el e
 
 Desarrollado en el marco educativo del Trabajo Práctico por la organización **N2026-2025**.
 
-*   **[Tu Nombre / GitHub]** - *Desarrollador Principal*
-*   **[Nombre de tu Compañero]** - *Co-Desarrollador*
